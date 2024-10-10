@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPA Demo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.rawgit.com/visionmedia/page.js/master/page.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:slnt,wght@-10..0,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body class="bg-[#0B0B0B] text-white">
+    <!-- Dynamic Content -->
+    <div id="main-content">
+      <!-- Content will be loaded here by page.js -->
+    </div>
+
+    <script>
+        // Define the route handling using page.js
+        page('/', index);
+        page('/signup', signup);
+        page('/login', login);
+        // ... add other routes as needed
+        
+        // Define the functions that will handle the routes
+        function index() {
+          loadContent('/');
+        }
+        
+        function signup() {
+          loadContent('/signup');
+        }
+        
+        function login() {
+          loadContent('/login');
+        }
+        
+        // Function to load content dynamically
+        function loadContent(path) {
+          fetch(path)
+            .then(response => response.text())
+            .then(html => {
+              const mainContent = document.getElementById('main-content');
+              mainContent.innerHTML = html;
+              mainContent.classList.remove('animate-fadeIn');
+              void mainContent.offsetWidth; // Trigger reflow to restart animation
+              mainContent.classList.add('animate-fadeIn');
+            })
+            .catch(error => console.error('Error loading the page:', error));
+        }
+        
+        // Start page.js
+        page();
+        
+        // If you want to load the signup page as the default route
+        // document.addEventListener("DOMContentLoaded", function () {
+        //   page.redirect('/signup');
+        // });
+      </script>
+      
+  </body>
+</html>
